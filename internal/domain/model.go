@@ -24,3 +24,10 @@ type RequestResult struct {
 	Length       int64
 	Packages     []Binpack
 }
+
+type ResultsOutput struct {
+	Branch        string `json:"branch"`
+	Method        string `json:"method"`
+	Arch          string `json:"arch"`
+	PackagesCount int    `json:"pkg_count"`
+}

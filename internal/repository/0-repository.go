@@ -9,7 +9,7 @@ import (
 type Analyzer interface {
 	SavePacks(ctx context.Context, branch string, packs map[string][]domain.Binpack) error
 	GetAllPacks(ctx context.Context, branch string) (map[string][]domain.Binpack, error)
-	GetPackByName(ctx context.Context, branch string, packName string) ([]domain.Binpack, bool)
+	GetPackByArchAndName(ctx context.Context, branch string, arch string, packName string) (domain.Binpack, bool)
 }
 
 type Repositories struct {

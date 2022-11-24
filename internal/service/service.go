@@ -9,8 +9,8 @@ import (
 )
 
 type Analyzer interface {
-	PackagesFromBranch1(ctx context.Context, branch1 string, branch2 string) ([]string, []string)
-	Branch1Higher(ctx context.Context, branch1 string, branch2 string) []string
+	PackagesFromBranch1(ctx context.Context, branch1 string, branch2 string) (map[string][]string, map[string][]string)
+	Branch1Higher(ctx context.Context, branch1 string, branch2 string) (map[string][]string, map[string]string)
 	GetPacks(ctx context.Context, branch string) error
 }
 

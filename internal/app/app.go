@@ -33,9 +33,12 @@ func Run() {
 
 		return
 	}
-	newUsecase.UniqueBranchPackages(ctx, domain.Sisyphus, domain.P10)
-
-	newUsecase.GetHigherReleases(ctx, domain.Sisyphus, domain.P10)
-	newUsecase.GetHigherReleases(ctx, domain.P10, domain.Sisyphus)
-
+	if newConfig.Scope != domain.ScopeReleases {
+		newUsecase.UniqueBranchPackages(ctx, domain.Sisyphus, domain.P10)
+	}
+	if newConfig.Scope != domain.ScopeDiff {
+		newUsecase.GetHigherReleases(ctx, domain.Sisyphus, domain.P10)
+		newUsecase.GetHigherReleases(ctx, domain.P10, domain.Sisyphus)
+	}
+	newUsecase.PrintResult()
 }

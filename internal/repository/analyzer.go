@@ -42,17 +42,24 @@ func (s *AnalyzerRepo) GetAllPacks(ctx context.Context, branch string) (map[stri
 	defer b.Lock.Unlock()
 	return b.DB, nil
 }
-func (s *AnalyzerRepo) GetPackByName(ctx context.Context, branch string, packName string) ([]domain.Binpack, bool) {
+func (s *AnalyzerRepo) GetPackByArchAndName(ctx context.Context, branch string, arch string, packName string) (domain.Binpack, bool) {
 	if err := ctx.Err(); err != nil {
 
-		return []domain.Binpack{}, false
+		return domain.Binpack{}, false
 	}
 	b := s.setBranch(branch)
 	b.Lock.Lock()
 	defer b.Lock.Unlock()
 	v, ok := b.DB[packName]
+	if ok {
+		for i := 0; i < len(v); i++ {
+			if v[i].Arch == arch {
 
-	return v, ok
+				return v[i], true
+			}
+		}
+	}
+	return domain.Binpack{}, false
 }
 
 func (s *AnalyzerRepo) setBranch(branch string) *storage.MapDB {
