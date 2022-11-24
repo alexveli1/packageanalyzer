@@ -20,9 +20,9 @@ type Comparepack struct {
 }
 
 type RequestResult struct {
-	Request_args interface{}
-	Length       int64
-	Packages     []Binpack
+	Request_args interface{} `json:"request_args"`
+	Length       int64       `json:"length"`
+	Packages     []Binpack   `json:"packages"`
 }
 
 type ResultsOutput struct {

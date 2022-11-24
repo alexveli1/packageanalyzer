@@ -3,8 +3,6 @@ package httpv1
 import (
 	"context"
 	"encoding/json"
-	"io"
-	"os"
 
 	"github.com/go-resty/resty/v2"
 
@@ -35,27 +33,16 @@ func (c *Client) GetRepo(ctx context.Context, branch string) ([]domain.Binpack, 
 		return nil, err
 	}
 	var result domain.RequestResult
-	result = *getContents(branch)
-	// TODO reenable after testing
-	/*	req := c.client.SetBaseURL(c.Addr)
-		_, err := req.R().
-			SetHeader("content-type", "text/plain").
-			SetContext(ctx).
-			SetResult(result).
-			Get(branch)
-		if err != nil {
-			mylog.SugarLogger.Warnf("Cannot initiate request: %v", err)
+	resp, err := c.client.R().
+		SetHeader("content-type", "text/plain").
+		SetContext(ctx).
+		Get(c.Addr + branch)
+	if err != nil {
+		mylog.SugarLogger.Warnf("Cannot initiate request: %v", err)
 
-			return nil, err
-		}*/
+		return nil, err
+	}
+	err = json.Unmarshal(resp.Body(), &result)
 
-	return result.Packages, nil
-}
-
-func getContents(branch string) *domain.RequestResult {
-	f, _ := os.Open("/home/alex/Documents/GoLang/Basalt/" + branch + ".json")
-	data, _ := io.ReadAll(f)
-	var v domain.RequestResult
-	_ = json.Unmarshal(data, &v)
-	return &v
+	return result.Packages, err
 }

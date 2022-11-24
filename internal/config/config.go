@@ -19,7 +19,6 @@ func NewConfig() *Config {
 	cfg := &Config{}
 	err := env.Parse(cfg)
 	if err != nil {
-
 		return nil
 	}
 	parseFlags(cfg)

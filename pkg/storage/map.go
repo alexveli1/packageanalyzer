@@ -5,7 +5,6 @@ import (
 	"sync"
 
 	"github/alexveli1/packageanalyzer/internal/domain"
-	"github/alexveli1/packageanalyzer/pkg/mylog"
 )
 
 type MapDB struct {
@@ -14,8 +13,6 @@ type MapDB struct {
 }
 
 func NewMap() *MapDB {
-	mylog.SugarLogger.Infof("repositories will use map")
-
 	return &MapDB{
 		DB:   map[string][]domain.Binpack{},
 		Lock: &sync.RWMutex{},

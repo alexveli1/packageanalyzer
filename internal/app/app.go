@@ -17,6 +17,7 @@ func Run() {
 	defer cancel()
 	mylog.SugarLogger = mylog.InitLogger(domain.LogTypeStdOut, domain.LogFileName)
 	newConfig := config.NewConfig()
+	mylog.SugarLogger.Infof("starting with config %v", newConfig)
 	newRepositories := repository.NewRepositories()
 	newClient := httpv1.NewClient(newConfig)
 	newServices := service.NewServices(newRepositories, newClient, newConfig)

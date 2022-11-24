@@ -19,7 +19,6 @@ type AnalyzerService struct {
 }
 
 func NewAnalyzerService(repo *repository.Repositories, transporter httpv1.ITransporter, cfg *config.Config) *AnalyzerService {
-
 	return &AnalyzerService{
 		repo:   repo,
 		client: transporter,
@@ -29,7 +28,6 @@ func NewAnalyzerService(repo *repository.Repositories, transporter httpv1.ITrans
 func (as *AnalyzerService) GetPacks(ctx context.Context, branch string) error {
 	p, err := as.client.GetRepo(ctx, branch)
 	if err != nil {
-
 		return err
 	}
 	sort.Slice(p, func(i, j int) bool {
@@ -41,14 +39,12 @@ func (as *AnalyzerService) GetPacks(ctx context.Context, branch string) error {
 	}
 	err = as.repo.SavePacks(ctx, branch, packs)
 	if err != nil {
-
 		return err
 	}
 	return nil
 }
 func (as *AnalyzerService) PackagesFromBranch1(ctx context.Context, branch1 string, branch2 string) (map[string][]string, map[string][]string) {
 	if err := ctx.Err(); err != nil {
-
 		return nil, nil
 	}
 	chB1 := make(chan map[string][]string)
@@ -95,7 +91,6 @@ func (as *AnalyzerService) uniquePacks(ctx context.Context, ch chan map[string][
 	ch <- only
 }
 func version1IsGreater(rel1, rel2, ver1, ver2 string) (bool, error) {
-
 	r1 := prepForSplit(strings.ReplaceAll(rel1, "alt", ""))
 	r2 := prepForSplit(strings.ReplaceAll(rel2, "alt", ""))
 
@@ -104,7 +99,6 @@ func version1IsGreater(rel1, rel2, ver1, ver2 string) (bool, error) {
 	yes, err := firstSplitGreater(rs1, rs2)
 	if err != nil {
 		if errors.Is(err, domain.ErrSecondHigher) {
-
 			return false, nil
 		}
 		return false, err
@@ -119,7 +113,6 @@ func version1IsGreater(rel1, rel2, ver1, ver2 string) (bool, error) {
 	yes, err = firstSplitGreater(v1, v2)
 	if err != nil {
 		if errors.Is(err, domain.ErrSecondHigher) {
-
 			return false, nil
 		}
 		return false, err
@@ -141,7 +134,6 @@ func firstSplitGreater(v1, v2 []string) (bool, error) {
 			return domain.ErrCompare, err
 		}
 		if len(v2) <= i {
-
 			return domain.ErrCompare, nil
 		}
 		vs2, err := strconv.ParseInt(v2[i], 10, 64)
@@ -151,11 +143,9 @@ func firstSplitGreater(v1, v2 []string) (bool, error) {
 			return domain.ErrCompare, err
 		}
 		if vs1 > vs2 {
-
 			return domain.FirstHigher, nil
 		}
 		if vs1 < vs2 {
-
 			return domain.SecondHigher, domain.ErrSecondHigher
 		}
 	}

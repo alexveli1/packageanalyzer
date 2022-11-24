@@ -22,7 +22,6 @@ func NewAnalyzerRepo() *AnalyzerRepo {
 
 func (s *AnalyzerRepo) SavePacks(ctx context.Context, branch string, packs map[string][]domain.Binpack) error {
 	if err := ctx.Err(); err != nil {
-
 		return err
 	}
 	b := s.setBranch(branch)
@@ -34,7 +33,6 @@ func (s *AnalyzerRepo) SavePacks(ctx context.Context, branch string, packs map[s
 }
 func (s *AnalyzerRepo) GetAllPacks(ctx context.Context, branch string) (map[string][]domain.Binpack, error) {
 	if err := ctx.Err(); err != nil {
-
 		return nil, err
 	}
 	b := s.setBranch(branch)
@@ -44,7 +42,6 @@ func (s *AnalyzerRepo) GetAllPacks(ctx context.Context, branch string) (map[stri
 }
 func (s *AnalyzerRepo) GetPackByArchAndName(ctx context.Context, branch string, arch string, packName string) (domain.Binpack, bool) {
 	if err := ctx.Err(); err != nil {
-
 		return domain.Binpack{}, false
 	}
 	b := s.setBranch(branch)
@@ -54,7 +51,6 @@ func (s *AnalyzerRepo) GetPackByArchAndName(ctx context.Context, branch string, 
 	if ok {
 		for i := 0; i < len(v); i++ {
 			if v[i].Arch == arch {
-
 				return v[i], true
 			}
 		}
