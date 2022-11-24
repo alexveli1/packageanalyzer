@@ -18,3 +18,9 @@ type Comparepack struct {
 	Version2 string `json:"version2"`
 	Release2 string `json:"release2"`
 }
+
+type RequestResult struct {
+	Request_args interface{}
+	Length       int64
+	Packages     []Binpack
+}

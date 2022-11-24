@@ -1,6 +1,6 @@
 package main
 
-import "packageanalyzer/internal/app"
+import "github/alexveli1/packageanalyzer/internal/app"
 
 func main() {
 	app.Run()

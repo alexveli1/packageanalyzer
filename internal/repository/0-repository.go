@@ -7,19 +7,17 @@ import (
 )
 
 type Analyzer interface {
-	SaveAll(ctx context.Context, packs []domain.Binpack) error
-	GetPacksByBranch(ctx context.Context) ([]domain.Binpack, error)
-	GetPackByName(ctx context.Context, pack string) (domain.Binpack, error)
+	SavePacks(ctx context.Context, branch string, packs map[string][]domain.Binpack) error
+	GetAllPacks(ctx context.Context, branch string) (map[string][]domain.Binpack, error)
+	GetPackByName(ctx context.Context, branch string, packName string) ([]domain.Binpack, bool)
 }
 
 type Repositories struct {
-	Sisyphus Analyzer
-	P10      Analyzer
+	Analyzer
 }
 
 func NewRepositories() *Repositories {
 	return &Repositories{
-		Sisyphus: NewSisyphusRepo(),
-		P10:      NewP10Repo(),
+		Analyzer: NewAnalyzerRepo(),
 	}
 }
