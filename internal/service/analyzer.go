@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"sort"
-	"strconv"
-	"strings"
+
+	version "github.com/knqyf263/go-rpm-version"
 
 	"github/alexveli1/packageanalyzer/internal/config"
 	"github/alexveli1/packageanalyzer/internal/domain"
@@ -43,128 +43,57 @@ func (as *AnalyzerService) GetPacks(ctx context.Context, branch string) error {
 	}
 	return nil
 }
-func (as *AnalyzerService) PackagesFromBranch1(ctx context.Context, branch1 string, branch2 string) (map[string][]string, map[string][]string) {
+func (as *AnalyzerService) PackagesFromBranch1(ctx context.Context, branch1 string, branch2 string) (map[string][]domain.Binpack, map[string][]domain.Binpack) {
 	if err := ctx.Err(); err != nil {
 		return nil, nil
 	}
-	chB1 := make(chan map[string][]string)
-	chB2 := make(chan map[string][]string)
+	chB1 := make(chan map[string][]domain.Binpack)
+	chB2 := make(chan map[string][]domain.Binpack)
 	go as.uniquePacks(ctx, chB1, branch1, branch2)
 	go as.uniquePacks(ctx, chB2, branch2, branch1)
 
 	return <-chB1, <-chB2
 }
-func (as *AnalyzerService) Branch1Higher(ctx context.Context, branch1 string, branch2 string) (map[string][]string, map[string]string) {
+func (as *AnalyzerService) Branch1Higher(ctx context.Context, branch1 string, branch2 string) map[string][]domain.Binpack {
+	if err := ctx.Err(); err != nil {
+		return nil
+	}
 	packs, _ := as.repo.GetAllPacks(ctx, branch1)
-	branch1Higher := make(map[string][]string, 0)
-	failures := make(map[string]string)
+	branch1Higher := make(map[string][]domain.Binpack, 0)
 	for pkgName, p1archs := range packs {
 		for i := 0; i < len(p1archs); i++ {
 			pkgBranch2, exists := as.repo.GetPackByArchAndName(ctx, branch2, p1archs[i].Arch, pkgName)
 			if exists {
-				p1Rel, p2Rel := p1archs[i].Release, pkgBranch2.Release
-				p1Ver, p2Ver := p1archs[i].Version, pkgBranch2.Version
-				yes, err := version1IsGreater(p1Rel, p2Rel, p1Ver, p2Ver)
-				if err != nil {
-					if !stringMatch(p1Rel, p2Rel, p1Ver, p2Ver) {
-						failures[pkgName+p1Rel+p1Ver] = "rel :" + p1Rel + " ver " + p1Ver + " and rel " + p2Rel + " ver " + p2Ver
-					}
-				}
-				if yes {
-					branch1Higher[p1archs[i].Arch] = append(branch1Higher[p1archs[i].Arch], pkgName+p1archs[i].Version+">"+pkgBranch2.Version+"\n")
-				}
+				p1VersionHigher(p1archs[i], pkgBranch2)
+				branch1Higher[p1archs[i].Arch] = append(branch1Higher[p1archs[i].Arch], p1archs[i])
 			}
 		}
 	}
-	return branch1Higher, failures
+	return branch1Higher
 }
-func (as *AnalyzerService) uniquePacks(ctx context.Context, ch chan map[string][]string, branch1, branch2 string) {
+func (as *AnalyzerService) uniquePacks(ctx context.Context, ch chan map[string][]domain.Binpack, branch1, branch2 string) {
+	if err := ctx.Err(); err != nil {
+		return
+	}
 	packs, _ := as.repo.GetAllPacks(ctx, branch1)
-	only := make(map[string][]string, 0)
+	only := make(map[string][]domain.Binpack, 0)
 	for k, v := range packs {
 		for i := 0; i < len(v); i++ {
 			if _, exists := as.repo.GetPackByArchAndName(ctx, branch2, v[i].Arch, k); !exists {
-				only[v[i].Arch] = append(only[v[i].Arch], k+"\n")
+				only[v[i].Arch] = append(only[v[i].Arch], v[i])
 			}
 		}
 	}
 	ch <- only
 }
-func version1IsGreater(rel1, rel2, ver1, ver2 string) (bool, error) {
-	r1 := prepForSplit(strings.ReplaceAll(rel1, "alt", ""))
-	r2 := prepForSplit(strings.ReplaceAll(rel2, "alt", ""))
 
-	rs1 := strings.Split(r1, ".")
-	rs2 := strings.Split(r2, ".")
-	yes, err := firstSplitGreater(rs1, rs2)
-	if err != nil {
-		if errors.Is(err, domain.ErrSecondHigher) {
-			return false, nil
-		}
-		return false, err
-	}
-	if yes {
-		// fmt.Printf("%s+%s > %s+%s\n", rel1, ver1, rel2, ver2)
+func p1VersionHigher(ver1, ver2 domain.Binpack) bool {
+	v1 := version.NewVersion(fmt.Sprint(ver1.Epoch) + ":" + ver1.Release + "-" + ver1.Version)
+	v2 := version.NewVersion(fmt.Sprint(ver2.Epoch) + ":" + ver2.Release + "-" + ver2.Version)
 
-		return true, nil
-	}
-	v1 := strings.Split(prepForSplit(ver1), ".")
-	v2 := strings.Split(prepForSplit(ver2), ".")
-	yes, err = firstSplitGreater(v1, v2)
-	if err != nil {
-		if errors.Is(err, domain.ErrSecondHigher) {
-			return false, nil
-		}
-		return false, err
-	}
-	if yes {
-		// fmt.Printf("%s+%s > %s+%s\n", rel1, ver1, rel2, ver2)
-
-		return true, nil
-	}
-	return false, nil
-}
-
-func firstSplitGreater(v1, v2 []string) (bool, error) {
-	for i := 0; i < len(v1); i++ {
-		vs1, err := strconv.ParseInt(v1[i], 10, 64)
-		if err != nil {
-			// mylog.SugarLogger.Warnf("cannot convert %s: %v", v1[i], err)
-
-			return domain.ErrCompare, err
-		}
-		if len(v2) <= i {
-			return domain.ErrCompare, nil
-		}
-		vs2, err := strconv.ParseInt(v2[i], 10, 64)
-		if err != nil {
-			// mylog.SugarLogger.Warnf("cannot convert %s: %v", v1[i], err)
-
-			return domain.ErrCompare, err
-		}
-		if vs1 > vs2 {
-			return domain.FirstHigher, nil
-		}
-		if vs1 < vs2 {
-			return domain.SecondHigher, domain.ErrSecondHigher
-		}
+	if v1.GreaterThan(v2) {
+		return true
 	}
 
-	return domain.SecondHigher, nil
-}
-
-func prepForSplit(s string) string {
-	s = strings.ReplaceAll(s, "_", ".")
-	s = strings.ReplaceAll(s, "jpp", "")
-	s = strings.ReplaceAll(s, "qa", "")
-	s = strings.ReplaceAll(s, "svn", "")
-	s = strings.ReplaceAll(s, ".git.", ".")
-	s = strings.ReplaceAll(s, "git", "")
-	s = strings.ReplaceAll(s, "r", "")
-
-	return s
-}
-
-func stringMatch(p1Rel, p2Rel, p1Ver, p2Ver string) bool {
-	return p1Rel == p2Rel && p1Ver == p2Ver
+	return false
 }

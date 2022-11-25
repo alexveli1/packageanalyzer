@@ -43,6 +43,10 @@ func (c *Client) GetRepo(ctx context.Context, branch string) ([]domain.Binpack, 
 		return nil, err
 	}
 	err = json.Unmarshal(resp.Body(), &result)
+	if err != nil {
+		mylog.SugarLogger.Warnf("cannot unmarshall body")
 
-	return result.Packages, err
+		return nil, err
+	}
+	return result.Packages, nil
 }

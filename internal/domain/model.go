@@ -31,3 +31,24 @@ type ResultsOutput struct {
 	Arch          string `json:"arch"`
 	PackagesCount int    `json:"pkg_count"`
 }
+type Branch struct {
+	Name     string    `json:"branch"`
+	Packages []Binpack `json:"packages"`
+}
+
+type Arch struct {
+	Name     string    `json:"arch"`
+	Packages []Binpack `json:"packages"`
+}
+
+type ResultsOutput2 struct {
+	Branch []Branch `json:"branch"`
+}
+
+type ResultsOutput3 struct {
+	Method []struct {
+		Branch []struct {
+			Packages []Binpack `json:"packages"`
+		} `json:"branch"`
+	} `json:"method"`
+}
