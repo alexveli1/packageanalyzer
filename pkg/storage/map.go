@@ -7,14 +7,15 @@ import (
 	"github/alexveli1/packageanalyzer/internal/domain"
 )
 
+// MapDB place for storing raw data collected from ALT' web api
 type MapDB struct {
-	DB   map[string][]domain.Binpack
+	DB   domain.Branch
 	Lock *sync.RWMutex
 }
 
 func NewMap() *MapDB {
 	return &MapDB{
-		DB:   map[string][]domain.Binpack{},
+		DB:   make(domain.Branch),
 		Lock: &sync.RWMutex{},
 	}
 }

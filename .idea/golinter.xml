@@ -22,6 +22,7 @@
         <option value="whitespace" />
         <option value="gosimple" />
         <option value="goprintffuncname" />
+        <option value="nlreturn" />
         <option value="gocyclo" />
         <option value="prealloc" />
       </list>

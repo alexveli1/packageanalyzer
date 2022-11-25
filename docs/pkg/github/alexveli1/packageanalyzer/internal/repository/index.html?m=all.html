@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>repository - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.18.4";</script>
+<script src="../../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://127.0.0.1:8080/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://127.0.0.1:8080/pkg/">GoDoc</a></div>
+<a href="index.html%3Fm=all.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://127.0.0.1:8080/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package repository
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github/alexveli1/packageanalyzer/internal/repository"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html%3Fm=all.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html%3Fm=all.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package repository provides access to storage for service layer
+</p>
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="index.html%3Fm=all.html#Analyzer">type Analyzer</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html%3Fm=all.html#AnalyzerRepo">type AnalyzerRepo</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#NewAnalyzerRepo">func NewAnalyzerRepo() *AnalyzerRepo</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#AnalyzerRepo.GetBranchPacks">func (s *AnalyzerRepo) GetBranchPacks(ctx context.Context, branch string) (domain.Branch, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#AnalyzerRepo.GetPacksByArchAndName">func (s *AnalyzerRepo) GetPacksByArchAndName(ctx context.Context, branch string, arch string, packName string) ([]domain.Binpack, bool, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#AnalyzerRepo.SavePacks">func (s *AnalyzerRepo) SavePacks(ctx context.Context, branch string, packs domain.Branch) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#AnalyzerRepo.setBranch">func (s *AnalyzerRepo) setBranch(branch string) *storage.MapDB</a></dd>
+				
+			
+				
+				<dd><a href="index.html%3Fm=all.html#Repositories">type Repositories</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#NewRepositories">func NewRepositories() *Repositories</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/analyzer.go">analyzer.go</a>
+			
+				<a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/repository.go">repository.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+		
+			
+			
+			<h2 id="Analyzer">type <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/repository.go?s=240:537#L1">Analyzer</a>
+				<a class="permalink" href="index.html%3Fm=all.html#Analyzer">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Analyzer provides services with access to raw data collected from web api
+</p>
+
+			<pre>type Analyzer interface {
+    SavePacks(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>, packs <a href="../domain/index.html">domain</a>.<a href="../domain/index.html#Branch">Branch</a>) <a href="http://127.0.0.1:8080/pkg/builtin/#error">error</a>
+    GetBranchPacks(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>) (<a href="../domain/index.html">domain</a>.<a href="../domain/index.html#Branch">Branch</a>, <a href="http://127.0.0.1:8080/pkg/builtin/#error">error</a>)
+    GetPacksByArchAndName(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>, arch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>, packName <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>) ([]<a href="../domain/index.html">domain</a>.<a href="../domain/index.html#Binpack">Binpack</a>, <a href="http://127.0.0.1:8080/pkg/builtin/#bool">bool</a>, <a href="http://127.0.0.1:8080/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="AnalyzerRepo">type <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/analyzer.go?s=309:387#L2">AnalyzerRepo</a>
+				<a class="permalink" href="index.html%3Fm=all.html#AnalyzerRepo">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+AnalyzerRepo implementation of Analyzer repo for mocking repo layer or potential using several data storage options
+</p>
+
+			<pre>type AnalyzerRepo struct {
+<span id="AnalyzerRepo.sisyphus"></span>    sisyphus *<a href="../../pkg/storage/index.html">storage</a>.<a href="../../pkg/storage/index.html#MapDB">MapDB</a>
+<span id="AnalyzerRepo.p10"></span>    p10      *<a href="../../pkg/storage/index.html">storage</a>.<a href="../../pkg/storage/index.html#MapDB">MapDB</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="NewAnalyzerRepo">func <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/analyzer.go?s=389:425#L7">NewAnalyzerRepo</a>
+					<a class="permalink" href="index.html%3Fm=all.html#NewAnalyzerRepo">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func NewAnalyzerRepo() *<a href="index.html%3Fm=all.html#AnalyzerRepo">AnalyzerRepo</a></pre>
+				
+				
+				
+			
+
+			
+				
+				<h3 id="AnalyzerRepo.GetBranchPacks">func (*AnalyzerRepo) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/analyzer.go?s=889:985#L28">GetBranchPacks</a>
+					<a class="permalink" href="index.html%3Fm=all.html#AnalyzerRepo.GetBranchPacks">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html%3Fm=all.html#AnalyzerRepo">AnalyzerRepo</a>) GetBranchPacks(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>) (<a href="../domain/index.html">domain</a>.<a href="../domain/index.html#Branch">Branch</a>, <a href="http://127.0.0.1:8080/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetBranchPacks returns full list of packages for single branch
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AnalyzerRepo.GetPacksByArchAndName">func (*AnalyzerRepo) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/analyzer.go?s=1315:1457#L42">GetPacksByArchAndName</a>
+					<a class="permalink" href="index.html%3Fm=all.html#AnalyzerRepo.GetPacksByArchAndName">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html%3Fm=all.html#AnalyzerRepo">AnalyzerRepo</a>) GetPacksByArchAndName(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>, arch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>, packName <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>) ([]<a href="../domain/index.html">domain</a>.<a href="../domain/index.html#Binpack">Binpack</a>, <a href="http://127.0.0.1:8080/pkg/builtin/#bool">bool</a>, <a href="http://127.0.0.1:8080/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetPacksByArchAndName provides slice of domain.Binpack
+considering there might be several packages with same architecure,
+but different releases and versions in ALT repository
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AnalyzerRepo.SavePacks">func (*AnalyzerRepo) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/analyzer.go?s=580:675#L15">SavePacks</a>
+					<a class="permalink" href="index.html%3Fm=all.html#AnalyzerRepo.SavePacks">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html%3Fm=all.html#AnalyzerRepo">AnalyzerRepo</a>) SavePacks(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>, packs <a href="../domain/index.html">domain</a>.<a href="../domain/index.html#Branch">Branch</a>) <a href="http://127.0.0.1:8080/pkg/builtin/#error">error</a></pre>
+				<p>
+SavePacks stores data got be service layer from HTTP client
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AnalyzerRepo.setBranch">func (*AnalyzerRepo) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/analyzer.go?s=1923:1985#L64">setBranch</a>
+					<a class="permalink" href="index.html%3Fm=all.html#AnalyzerRepo.setBranch">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html%3Fm=all.html#AnalyzerRepo">AnalyzerRepo</a>) setBranch(branch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>) *<a href="../../pkg/storage/index.html">storage</a>.<a href="../../pkg/storage/index.html#MapDB">MapDB</a></pre>
+				<p>
+setBranch selects repo branch for operations
+implemented to avoid duplicated functions/repos and simplification of data storage
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Repositories">type <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/repository.go?s=686:724#L9">Repositories</a>
+				<a class="permalink" href="index.html%3Fm=all.html#Repositories">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Repositories consolidated object for providing repositories for seriveces
+though excessive for current task scope but used for extensibility
+</p>
+
+			<pre>type Repositories struct {
+    <a href="index.html%3Fm=all.html#Analyzer">Analyzer</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="NewRepositories">func <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/repository/repository.go?s=726:762#L13">NewRepositories</a>
+					<a class="permalink" href="index.html%3Fm=all.html#NewRepositories">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func NewRepositories() *<a href="index.html%3Fm=all.html#Repositories">Repositories</a></pre>
+				
+				
+				
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.18.4.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://127.0.0.1:8080/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

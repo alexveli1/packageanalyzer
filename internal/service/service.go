@@ -1,3 +1,5 @@
+// Package service requests clients to provide data, requests repo to save data,
+// processes data and provides results to usecase layer
 package service
 
 import (
@@ -9,12 +11,14 @@ import (
 	"github/alexveli1/packageanalyzer/internal/transport/httpv1"
 )
 
+// Analyzer used for mocking service layer logic for tests
 type Analyzer interface {
-	PackagesFromBranch1(ctx context.Context, branch1 string, branch2 string) (map[string][]domain.Binpack, map[string][]domain.Binpack)
-	Branch1Higher(ctx context.Context, branch1 string, branch2 string) map[string][]domain.Binpack
+	GetUnique(ctx context.Context, branch1 string, branch2 string) (domain.Result, error)
+	GetHigher(ctx context.Context, branch1 string, branch2 string) (domain.Result, error)
 	GetPacks(ctx context.Context, branch string) error
 }
 
+// Services consolidated object for hosting any current or future services
 type Services struct {
 	Analyzer
 }

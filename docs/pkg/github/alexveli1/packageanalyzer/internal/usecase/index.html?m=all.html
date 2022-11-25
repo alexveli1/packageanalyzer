@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>usecase - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.18.4";</script>
+<script src="../../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://127.0.0.1:8080/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://127.0.0.1:8080/pkg/">GoDoc</a></div>
+<a href="index.html%3Fm=all.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://127.0.0.1:8080/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package usecase
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github/alexveli1/packageanalyzer/internal/usecase"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html%3Fm=all.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html%3Fm=all.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package usecase implements api level operations with top level parameters
+sends requests to service layer and prints out results
+</p>
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="index.html%3Fm=all.html#Usecase">type Usecase</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#NewUsecase">func NewUsecase(services *service.Services) *Usecase</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#Usecase.GetHigherReleases">func (u *Usecase) GetHigherReleases(ctx context.Context, branch1 string, branch2 string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#Usecase.GetPackages">func (u *Usecase) GetPackages(ctx context.Context, branch string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#Usecase.GetUniquePackages">func (u *Usecase) GetUniquePackages(ctx context.Context, branch1 string, branch2 string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#Usecase.PrintResult">func (u *Usecase) PrintResult(ctx context.Context)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html%3Fm=all.html#Usecase.appendResult">func (u *Usecase) appendResult(packs domain.Result)</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/usecase/usecase.go">usecase.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+		
+			
+			
+			<h2 id="Usecase">type <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/usecase/usecase.go?s=434:498#L6">Usecase</a>
+				<a class="permalink" href="index.html%3Fm=all.html#Usecase">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Usecase - api level object for receiving instructions from top most layer of app
+</p>
+
+			<pre>type Usecase struct {
+    *<a href="../service/index.html">service</a>.<a href="../service/index.html#Services">Services</a>
+<span id="Usecase.result"></span>    result <a href="../domain/index.html">domain</a>.<a href="../domain/index.html#Result">Result</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="NewUsecase">func <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/usecase/usecase.go?s=500:552#L11">NewUsecase</a>
+					<a class="permalink" href="index.html%3Fm=all.html#NewUsecase">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func NewUsecase(services *<a href="../service/index.html">service</a>.<a href="../service/index.html#Services">Services</a>) *<a href="index.html%3Fm=all.html#Usecase">Usecase</a></pre>
+				
+				
+				
+			
+
+			
+				
+				<h3 id="Usecase.GetHigherReleases">func (*Usecase) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/usecase/usecase.go?s=1994:2082#L52">GetHigherReleases</a>
+					<a class="permalink" href="index.html%3Fm=all.html#Usecase.GetHigherReleases">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (u *<a href="index.html%3Fm=all.html#Usecase">Usecase</a>) GetHigherReleases(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch1 <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>, branch2 <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>)</pre>
+				<p>
+GetHigherReleases collect and save info on packages which ver+rel is higher than in another branch
+and stores results into Usecase object for later printing of all results
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Usecase.GetPackages">func (*Usecase) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/usecase/usecase.go?s=712:777#L19">GetPackages</a>
+					<a class="permalink" href="index.html%3Fm=all.html#Usecase.GetPackages">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (u *<a href="index.html%3Fm=all.html#Usecase">Usecase</a>) GetPackages(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>)</pre>
+				<p>
+GetPackages requests service layer to collect and save ALT repository data
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Usecase.GetUniquePackages">func (*Usecase) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/usecase/usecase.go?s=1304:1392#L34">GetUniquePackages</a>
+					<a class="permalink" href="index.html%3Fm=all.html#Usecase.GetUniquePackages">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (u *<a href="index.html%3Fm=all.html#Usecase">Usecase</a>) GetUniquePackages(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>, branch1 <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>, branch2 <a href="http://127.0.0.1:8080/pkg/builtin/#string">string</a>)</pre>
+				<p>
+GetUniquePackages requests service layer to provide domain.Result for packages unique for branch1
+and stores results into Usecase object for later printing of all results
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Usecase.PrintResult">func (*Usecase) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/usecase/usecase.go?s=2648:2698#L70">PrintResult</a>
+					<a class="permalink" href="index.html%3Fm=all.html#Usecase.PrintResult">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (u *<a href="index.html%3Fm=all.html#Usecase">Usecase</a>) PrintResult(ctx <a href="http://127.0.0.1:8080/pkg/context/">context</a>.<a href="http://127.0.0.1:8080/pkg/context/#Context">Context</a>)</pre>
+				<p>
+PrintResult manages format of output - file, stdout, etc
+logic might be extended with flags and other config tools
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Usecase.appendResult">func (*Usecase) <a href="http://127.0.0.1:8080/src/github/alexveli1/packageanalyzer/internal/usecase/usecase.go?s=3202:3253#L90">appendResult</a>
+					<a class="permalink" href="index.html%3Fm=all.html#Usecase.appendResult">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (u *<a href="index.html%3Fm=all.html#Usecase">Usecase</a>) appendResult(packs <a href="../domain/index.html">domain</a>.<a href="../domain/index.html#Result">Result</a>)</pre>
+				<p>
+appendResult stores domain.Result of processing single branch with single method (unique or higher)
+received from service layer
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.18.4.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://127.0.0.1:8080/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

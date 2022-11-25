@@ -1,3 +1,4 @@
+// Package domain saves static info used by all layers
 package domain
 
 const (
@@ -6,13 +7,8 @@ const (
 	LogFileName   = "package-analyzer.log"
 	P10           = "p10"
 	Sisyphus      = "sisyphus"
-	FirstHigher   = true
-	SecondHigher  = false
-	ErrCompare    = false
-	ScopeAll      = "all"
 	ScopeDiff     = "diff"
 	ScopeReleases = "releases"
 	MethodUnique  = "unique"
 	MethodHigher  = "higher"
-	MethodFailure = "failure"
 )
