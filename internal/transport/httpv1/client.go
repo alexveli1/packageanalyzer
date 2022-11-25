@@ -2,15 +2,17 @@ package httpv1
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/go-resty/resty/v2"
 
 	"github/alexveli1/packageanalyzer/internal/config"
+	"github/alexveli1/packageanalyzer/internal/domain"
 	"github/alexveli1/packageanalyzer/pkg/mylog"
 )
 
 type ITransporter interface {
-	GetRepo(ctx context.Context, name string) ([]byte, error)
+	GetRepo(ctx context.Context, name string) ([]domain.Binpack, error)
 }
 
 type Client struct {
@@ -26,19 +28,25 @@ func NewClient(cfg *config.Config) *Client {
 	}
 }
 
-func (c *Client) GetRepo(ctx context.Context, name string) ([]byte, error) {
+func (c *Client) GetRepo(ctx context.Context, branch string) ([]domain.Binpack, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
-	req := c.client.SetBaseURL(c.Addr)
-	_, err := req.R().
+	var result domain.RequestResult
+	resp, err := c.client.R().
 		SetHeader("content-type", "text/plain").
 		SetContext(ctx).
-		Get(name)
+		Get(c.Addr + branch)
 	if err != nil {
 		mylog.SugarLogger.Warnf("Cannot initiate request: %v", err)
 
 		return nil, err
 	}
-	return nil, nil
+	err = json.Unmarshal(resp.Body(), &result)
+	if err != nil {
+		mylog.SugarLogger.Warnf("cannot unmarshall body")
+
+		return nil, err
+	}
+	return result.Packages, nil
 }

@@ -18,3 +18,37 @@ type Comparepack struct {
 	Version2 string `json:"version2"`
 	Release2 string `json:"release2"`
 }
+
+type RequestResult struct {
+	Request_args interface{} `json:"request_args"`
+	Length       int64       `json:"length"`
+	Packages     []Binpack   `json:"packages"`
+}
+
+type ResultsOutput struct {
+	Branch        string `json:"branch"`
+	Method        string `json:"method"`
+	Arch          string `json:"arch"`
+	PackagesCount int    `json:"pkg_count"`
+}
+type Branch struct {
+	Name     string    `json:"branch"`
+	Packages []Binpack `json:"packages"`
+}
+
+type Arch struct {
+	Name     string    `json:"arch"`
+	Packages []Binpack `json:"packages"`
+}
+
+type ResultsOutput2 struct {
+	Branch []Branch `json:"branch"`
+}
+
+type ResultsOutput3 struct {
+	Method []struct {
+		Branch []struct {
+			Packages []Binpack `json:"packages"`
+		} `json:"branch"`
+	} `json:"method"`
+}

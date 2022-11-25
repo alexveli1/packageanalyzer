@@ -1,6 +1,8 @@
 package service
 
 import (
+	"context"
+
 	"github/alexveli1/packageanalyzer/internal/config"
 	"github/alexveli1/packageanalyzer/internal/domain"
 	"github/alexveli1/packageanalyzer/internal/repository"
@@ -8,9 +10,9 @@ import (
 )
 
 type Analyzer interface {
-	CompareXOR(b1, b2 string) ([]domain.Binpack, error)
-	ExistsInBoth(b1, b2 string) ([]domain.Binpack, error)
-	CompareReleases([]domain.Binpack) ([]domain.Comparepack, error)
+	PackagesFromBranch1(ctx context.Context, branch1 string, branch2 string) (map[string][]domain.Binpack, map[string][]domain.Binpack)
+	Branch1Higher(ctx context.Context, branch1 string, branch2 string) map[string][]domain.Binpack
+	GetPacks(ctx context.Context, branch string) error
 }
 
 type Services struct {
@@ -19,6 +21,6 @@ type Services struct {
 
 func NewServices(repo *repository.Repositories, transporter httpv1.ITransporter, cfg *config.Config) *Services {
 	return &Services{
-		Analyzer: NewAnalyzerService(repo, &transporter, cfg),
+		Analyzer: NewAnalyzerService(repo, transporter, cfg),
 	}
 }
