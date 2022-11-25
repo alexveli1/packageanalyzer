@@ -12,6 +12,9 @@ import (
 	"github/alexveli1/packageanalyzer/pkg/mylog"
 )
 
+// Run - application starter
+// initializes configuration, logger, repositories, HTTP client, service layer, and usecase object
+// sends high level instructions to Usecase layer
 func Run() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -22,24 +25,17 @@ func Run() {
 	newClient := httpv1.NewClient(newConfig)
 	newServices := service.NewServices(newRepositories, newClient, newConfig)
 	newUsecase := usecase.NewUsecase(newServices)
-	err := newUsecase.GetPacks(ctx, domain.Sisyphus)
-	if err != nil {
-		mylog.SugarLogger.Errorf("cannot get packages: %v", err)
 
-		return
-	}
-	err = newUsecase.GetPacks(ctx, domain.P10)
-	if err != nil {
-		mylog.SugarLogger.Errorf("cannot get packages: %v", err)
+	newUsecase.GetPackages(ctx, domain.Sisyphus)
+	newUsecase.GetPackages(ctx, domain.P10)
 
-		return
-	}
 	if newConfig.Scope != domain.ScopeReleases {
-		newUsecase.UniqueBranchPackages(ctx, domain.Sisyphus, domain.P10)
+		newUsecase.GetUniquePackages(ctx, domain.Sisyphus, domain.P10)
+		newUsecase.GetUniquePackages(ctx, domain.P10, domain.Sisyphus)
 	}
 	if newConfig.Scope != domain.ScopeDiff {
 		newUsecase.GetHigherReleases(ctx, domain.Sisyphus, domain.P10)
 		newUsecase.GetHigherReleases(ctx, domain.P10, domain.Sisyphus)
 	}
-	newUsecase.PrintResult()
+	newUsecase.PrintResult(ctx)
 }

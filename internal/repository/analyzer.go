@@ -8,6 +8,7 @@ import (
 	"github/alexveli1/packageanalyzer/pkg/storage"
 )
 
+// AnalyzerRepo implementation of Analyzer repo for mocking repo layer or potential using several data storage options
 type AnalyzerRepo struct {
 	sisyphus *storage.MapDB
 	p10      *storage.MapDB
@@ -20,7 +21,8 @@ func NewAnalyzerRepo() *AnalyzerRepo {
 	}
 }
 
-func (s *AnalyzerRepo) SavePacks(ctx context.Context, branch string, packs map[string][]domain.Binpack) error {
+// SavePacks stores data got be service layer from HTTP client
+func (s *AnalyzerRepo) SavePacks(ctx context.Context, branch string, packs domain.Branch) error {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
@@ -31,19 +33,27 @@ func (s *AnalyzerRepo) SavePacks(ctx context.Context, branch string, packs map[s
 
 	return nil
 }
-func (s *AnalyzerRepo) GetAllPacks(ctx context.Context, branch string) (map[string][]domain.Binpack, error) {
+
+// GetBranchPacks returns full list of packages for single branch
+func (s *AnalyzerRepo) GetBranchPacks(ctx context.Context, branch string) (domain.Branch, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
 	b := s.setBranch(branch)
 	b.Lock.Lock()
 	defer b.Lock.Unlock()
+
 	return b.DB, nil
 }
-func (s *AnalyzerRepo) GetPackByArchAndName(ctx context.Context, branch string, arch string, packName string) (domain.Binpack, bool) {
+
+// GetPacksByArchAndName provides slice of domain.Binpack
+// considering there might be several packages with same architecure,
+// but different releases and versions in ALT repository
+func (s *AnalyzerRepo) GetPacksByArchAndName(ctx context.Context, branch string, arch string, packName string) ([]domain.Binpack, bool, error) {
 	if err := ctx.Err(); err != nil {
-		return domain.Binpack{}, false
+		return nil, false, err
 	}
+	packs := make([]domain.Binpack, 0)
 	b := s.setBranch(branch)
 	b.Lock.Lock()
 	defer b.Lock.Unlock()
@@ -51,13 +61,16 @@ func (s *AnalyzerRepo) GetPackByArchAndName(ctx context.Context, branch string, 
 	if ok {
 		for i := 0; i < len(v); i++ {
 			if v[i].Arch == arch {
-				return v[i], true
+				packs = append(packs, v[i])
 			}
 		}
 	}
-	return domain.Binpack{}, false
+
+	return packs, false, nil
 }
 
+// setBranch selects repo branch for operations
+// implemented to avoid duplicated functions/repos and simplification of data storage
 func (s *AnalyzerRepo) setBranch(branch string) *storage.MapDB {
 	switch branch {
 	case domain.P10:
@@ -70,5 +83,6 @@ func (s *AnalyzerRepo) setBranch(branch string) *storage.MapDB {
 
 		mylog.SugarLogger.Warnf("incorrect branch name %s", branch)
 	}
+
 	return nil
 }

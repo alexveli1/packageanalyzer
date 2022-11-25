@@ -1,3 +1,4 @@
+// Package httpv1 gathers web data
 package httpv1
 
 import (
@@ -11,10 +12,12 @@ import (
 	"github/alexveli1/packageanalyzer/pkg/mylog"
 )
 
+// ITransporter interface for client, which might [add setup required] get info from different protocols, clients
 type ITransporter interface {
 	GetRepo(ctx context.Context, name string) ([]domain.Binpack, error)
 }
 
+// Client implementation of ITransporter interface serving HTTP connection with resty client
 type Client struct {
 	Addr   string
 	client *resty.Client
@@ -24,14 +27,18 @@ func NewClient(cfg *config.Config) *Client {
 	return &Client{
 		Addr: cfg.Address,
 		client: resty.New().
-			SetRetryCount(0).SetLogger(mylog.SugarLogger),
+			SetRetryCount(0).
+			SetTimeout(cfg.Timeout).
+			SetLogger(mylog.SugarLogger),
 	}
 }
 
+// GetRepo connects to api and downloads JSON response
 func (c *Client) GetRepo(ctx context.Context, branch string) ([]domain.Binpack, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
+	// result := *getContents(branch)
 	var result domain.RequestResult
 	resp, err := c.client.R().
 		SetHeader("content-type", "text/plain").
@@ -50,3 +57,13 @@ func (c *Client) GetRepo(ctx context.Context, branch string) ([]domain.Binpack, 
 	}
 	return result.Packages, nil
 }
+
+/*
+// getContents used for testing to avoid excessive load on server
+func getContents(branch string) *domain.RequestResult {
+	f, _ := os.Open("/home/alex/Documents/GoLang/Basalt/" + branch + ".json")
+	data, _ := io.ReadAll(f)
+	var v domain.RequestResult
+	_ = json.Unmarshal(data, &v)
+	return &v
+}*/
