@@ -3,6 +3,8 @@ package app
 import (
 	"context"
 
+	"golang.org/x/sync/errgroup"
+
 	"github/alexveli1/packageanalyzer/internal/config"
 	"github/alexveli1/packageanalyzer/internal/domain"
 	"github/alexveli1/packageanalyzer/internal/repository"
@@ -26,16 +28,41 @@ func Run() {
 	newServices := service.NewServices(newRepositories, newClient, newConfig)
 	newUsecase := usecase.NewUsecase(newServices)
 
-	newUsecase.GetPackages(ctx, domain.Sisyphus)
-	newUsecase.GetPackages(ctx, domain.P10)
-
-	if newConfig.Scope != domain.ScopeReleases {
-		newUsecase.GetUniquePackages(ctx, domain.Sisyphus, domain.P10)
-		newUsecase.GetUniquePackages(ctx, domain.P10, domain.Sisyphus)
+	grp, ctx1 := errgroup.WithContext(ctx)
+	grp.Go(func() error {
+		return newUsecase.GetPackages(ctx1, domain.Sisyphus)
+	})
+	grp.Go(func() error {
+		return newUsecase.GetPackages(ctx1, domain.P10)
+	})
+	if err := grp.Wait(); err != nil {
+		return
 	}
+	ctx2 := context.Background()
+	if newConfig.Scope != domain.ScopeReleases {
+		grp1, c2 := errgroup.WithContext(ctx2)
+		grp1.Go(func() error {
+			return newUsecase.GetUniquePackages(c2, domain.Sisyphus, domain.P10)
+		})
+		grp1.Go(func() error {
+			return newUsecase.GetUniquePackages(c2, domain.P10, domain.Sisyphus)
+		})
+		if err := grp1.Wait(); err != nil {
+			return
+		}
+	}
+	ctx3 := context.Background()
 	if newConfig.Scope != domain.ScopeDiff {
-		newUsecase.GetHigherReleases(ctx, domain.Sisyphus, domain.P10)
-		newUsecase.GetHigherReleases(ctx, domain.P10, domain.Sisyphus)
+		grp2, c3 := errgroup.WithContext(ctx3)
+		grp2.Go(func() error {
+			return newUsecase.GetHigherReleases(c3, domain.Sisyphus, domain.P10)
+		})
+		grp2.Go(func() error {
+			return newUsecase.GetHigherReleases(c3, domain.P10, domain.Sisyphus)
+		})
+		if err := grp2.Wait(); err != nil {
+			return
+		}
 	}
 	newUsecase.PrintResult(ctx)
 }

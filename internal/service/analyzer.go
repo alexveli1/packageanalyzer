@@ -40,7 +40,6 @@ func (as *AnalyzerService) StorePacks(ctx context.Context, branch string) error 
 	if err != nil {
 		return nil
 	}
-
 	return nil
 }
 
@@ -54,9 +53,6 @@ func (as *AnalyzerService) GetUnique(ctx context.Context, branch1 string, branch
 	if err != nil {
 		return nil, err
 	}
-	type pkg map[string]string /*
-		var p = make(pkg)
-		tmp := make(map[string]pkg)*/
 	only := make(domain.Branch)
 	for pkgName, v := range packs {
 		for i := 0; i < len(v); i++ {
@@ -69,7 +65,6 @@ func (as *AnalyzerService) GetUnique(ctx context.Context, branch1 string, branch
 			}
 		}
 	}
-	// }
 
 	return convertToResult(only, branch1, domain.MethodUnique), nil
 }
