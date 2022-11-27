@@ -38,7 +38,7 @@ func (c *Client) GetRepo(ctx context.Context, branch string) ([]domain.Binpack, 
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
-	// result := *getContents(branch)
+	//result := *getContents(branch)
 	var result domain.RequestResult
 	resp, err := c.client.R().
 		SetHeader("content-type", "text/plain").
@@ -55,15 +55,16 @@ func (c *Client) GetRepo(ctx context.Context, branch string) ([]domain.Binpack, 
 
 		return nil, err
 	}
+
 	return result.Packages, nil
 }
 
-/*
 // getContents used for testing to avoid excessive load on server
-func getContents(branch string) *domain.RequestResult {
+/*func getContents(branch string) *domain.RequestResult {
 	f, _ := os.Open("/home/alex/Documents/GoLang/Basalt/" + branch + ".json")
 	data, _ := io.ReadAll(f)
 	var v domain.RequestResult
 	_ = json.Unmarshal(data, &v)
 	return &v
-}*/
+}
+*/

@@ -15,7 +15,7 @@ import (
 type Analyzer interface {
 	GetUnique(ctx context.Context, branch1 string, branch2 string) (domain.Result, error)
 	GetHigher(ctx context.Context, branch1 string, branch2 string) (domain.Result, error)
-	GetPacks(ctx context.Context, branch string) error
+	StorePacks(ctx context.Context, branch string) error
 }
 
 // Services consolidated object for hosting any current or future services

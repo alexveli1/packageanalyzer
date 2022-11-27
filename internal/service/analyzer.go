@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"sort"
 
 	version "github.com/knqyf263/go-rpm-version"
 
@@ -27,15 +26,12 @@ func NewAnalyzerService(repo *repository.Repositories, transporter httpv1.ITrans
 	}
 }
 
-// GetPacks triggers request to HTTP Client and saves received data into repository
-func (as *AnalyzerService) GetPacks(ctx context.Context, branch string) error {
+// StorePacks triggers request to HTTP Client and saves received data into repository
+func (as *AnalyzerService) StorePacks(ctx context.Context, branch string) error {
 	p, err := as.client.GetRepo(ctx, branch)
 	if err != nil {
 		return nil
 	}
-	sort.Slice(p, func(i, j int) bool {
-		return p[i].Name < p[j].Name && p[i].Version < p[j].Version
-	})
 	packs := make(domain.Branch)
 	for i := 0; i < len(p); i++ {
 		packs[p[i].Name] = append(packs[p[i].Name], p[i])
@@ -58,21 +54,22 @@ func (as *AnalyzerService) GetUnique(ctx context.Context, branch1 string, branch
 	if err != nil {
 		return nil, err
 	}
-	tmp, only := make(map[string]string), make(domain.Branch)
-	for k, v := range packs {
+	type pkg map[string]string /*
+		var p = make(pkg)
+		tmp := make(map[string]pkg)*/
+	only := make(domain.Branch)
+	for pkgName, v := range packs {
 		for i := 0; i < len(v); i++ {
-			_, exists, err := as.repo.GetPacksByArchAndName(ctx, branch2, v[i].Arch, k)
+			_, exists, err := as.repo.GetPacksByArchAndName(ctx, branch2, v[i].Arch, pkgName)
 			if err != nil {
 				return nil, err
 			}
 			if !exists {
-				if _, ok := tmp[v[i].Name]; !ok {
-					only[v[i].Arch] = append(only[v[i].Arch], v[i])
-					tmp[v[i].Name] = v[i].Name
-				}
+				only[v[i].Arch] = append(only[v[i].Arch], v[i])
 			}
 		}
 	}
+	// }
 
 	return convertToResult(only, branch1, domain.MethodUnique), nil
 }
@@ -123,10 +120,10 @@ func p1VersionHigher(ver1, ver2 domain.Binpack) bool {
 
 // convertToResult converts domain.Branch structure into domain.Result for returning to usecase layer
 func convertToResult(archPkgs domain.Branch, branchName, methodName string) domain.Result {
-	b := make(domain.Branch)
-	m := make(domain.Method)
 	r := make(domain.Result)
 	for k, v := range archPkgs {
+		b := make(domain.Branch)
+		m := make(domain.Method)
 		b[branchName] = v
 		if r[k] != nil {
 			m = r[k]
