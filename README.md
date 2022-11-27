@@ -32,6 +32,7 @@ JSON structure for each *.json file is as follows:
 `<method>`
 * higher - displays packages with higher releases for subsequent branch
 * unique - displays packages which are unique for arhitecture in branch
+
 `<branch>`
 * p10, sisyphus
 ---
