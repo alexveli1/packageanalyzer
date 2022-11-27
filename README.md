@@ -11,8 +11,8 @@ Results are provided within *.json files named by ARCHITECTURE.
 JSON structure for each *.json file is as follows:
 ```
 {
-  <method>:[{
-     <branch>:[{
+  <method>:{
+        <branch>:[{
                 "name": "bat-debuginfo",
                 "epoch": 0,
                 "version": "0.22.1",
@@ -24,14 +24,18 @@ JSON structure for each *.json file is as follows:
                },
                {
                     ...
-               },
-     }]
-  }]
+               }],
+        <branch>:[{}, ... {}]
+        },
+  <method>:{
+        <branch>:[{ ... }],
+        <branch>:[{ ... }]
+  }
 }
 ```
 `<method>`
 * higher - displays packages with higher releases for subsequent branch
-* unique - displays packages which are unique for arhitecture in branch
+* unique - displays packages which are unique for architecture in branch
 
 `<branch>`
 * p10, sisyphus
