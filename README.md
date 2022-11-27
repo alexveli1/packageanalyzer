@@ -29,7 +29,12 @@ JSON structure for each *.json file is as follows:
   }]
 }
 ```
+`<method>`
+* higher - displays packages with higher releases for subsequent branch
+* unique - displays packages which are unique for arhitecture in branch
 
+`<branch>`
+* p10, sisyphus
 ---
 
 ### Building instructions
@@ -37,9 +42,8 @@ JSON structure for each *.json file is as follows:
 `go build -o <execuitable>`
 
 ### Running application
-./<executable> [-s <scope>]
-
--s is optional flag for limiting scope of data analysis. Possible options:
+`./<executable> [-s <scope>]`
+-s is optional flag for limiting scope of data analysis. Possible options for the flag are:
 * all - finds unique packages and higher releases in branches
 * diff - only finds unique packages in branches
 * releases - only finds higher releases in branches
