@@ -58,15 +58,19 @@ func (s *AnalyzerRepo) GetPacksByArchAndName(ctx context.Context, branch string,
 	b.Lock.Lock()
 	defer b.Lock.Unlock()
 	v, ok := b.DB[packName]
-	if ok {
-		for i := 0; i < len(v); i++ {
-			if v[i].Arch == arch {
-				packs = append(packs, v[i])
-			}
+	if !ok {
+		return nil, false, nil
+	}
+	for i := 0; i < len(v); i++ {
+		if v[i].Arch == arch {
+			packs = append(packs, v[i]) // in case we might have several packages with same name for same arch but different versions
 		}
 	}
+	if len(packs) > 0 {
+		return packs, true, nil
+	}
 
-	return packs, false, nil
+	return nil, false, nil
 }
 
 // setBranch selects repo branch for operations

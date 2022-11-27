@@ -33,7 +33,7 @@ func (u *Usecase) GetPackages(ctx context.Context, branch string) {
 		return
 	}
 	mylog.SugarLogger.Infof("Getting packages for branch %s", branch)
-	err := u.Analyzer.GetPacks(ctx, branch)
+	err := u.Analyzer.StorePacks(ctx, branch)
 	if err != nil {
 		mylog.SugarLogger.Infof("Getting packages for branch %s failed: %v", branch, err)
 	}
@@ -83,10 +83,15 @@ func (u *Usecase) PrintResult(ctx context.Context) {
 
 		return
 	}
-	for k, v := range u.result {
-		mylog.SugarLogger.Infof("Writing file %s.json", k)
+	for arch, v := range u.result {
+		mylog.SugarLogger.Infof("Stats for arch:%s", arch)
+		for method, v1 := range v {
+			for branch, v2 := range v1 {
+				mylog.SugarLogger.Infof("branch:%s has %d %s packages", branch, len(v2), method)
+			}
+		}
 		data, _ := json.Marshal(v)
-		err := os.WriteFile(k+".json", data, 0666)
+		err := os.WriteFile(arch+".json", data, 0666)
 		if err != nil {
 			mylog.SugarLogger.Warnf("cannot write json file: %v", err)
 
@@ -97,21 +102,21 @@ func (u *Usecase) PrintResult(ctx context.Context) {
 
 // appendResult stores domain.Result of processing single branch with single method (unique or higher)
 // received from service layer
-func (u *Usecase) appendResult(packs domain.Result) {
-	for k, v := range packs { // arch
-		if u.result[k] == nil {
-			u.result[k] = v
+func (u *Usecase) appendResult(result domain.Result) {
+	for arch, methods := range result { // arch
+		if u.result[arch] == nil {
+			u.result[arch] = methods
 
 			continue
 		}
-		for k1, v1 := range v { // method
-			if u.result[k][k1] == nil {
-				u.result[k][k1] = v1
+		for method, branches := range methods { // method
+			if u.result[arch][method] == nil {
+				u.result[arch][method] = branches
 
 				continue
 			}
-			for k2, v2 := range v1 { // branch
-				u.result[k][k1][k2] = v2
+			for branch, packs := range branches { // branch
+				u.result[arch][method][branch] = packs
 			}
 		}
 	}
