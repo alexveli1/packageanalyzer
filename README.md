@@ -46,11 +46,12 @@ JSON structure for each *.json file is as follows:
 `go build -o <execuitable>`
 
 ### Running application
-`./<executable> [-s <scope>]`
--s is optional flag for limiting scope of data analysis. Possible options for the flag are:
+`./<executable> [-s <scope> -v]`
+`-s` is optional flag for limiting scope of data analysis. Possible options for the flag are:
 * all - finds unique packages and higher releases in branches
 * diff - only finds unique packages in branches
 * releases - only finds higher releases in branches
+`-v` enables verification of branch analysis results against official ALTLinux API endpoint https://rdb.altlinux.org/api/packageset/compare_packagesets
 
 
 

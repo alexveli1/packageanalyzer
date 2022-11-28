@@ -9,9 +9,12 @@ import (
 
 // Analyzer provides services with access to raw data collected from web api
 type Analyzer interface {
-	SavePacks(ctx context.Context, branch string, packs domain.Branch) error
+	SavePacks(ctx context.Context, branch string, packs domain.Branch, sources domain.Sources) error
 	GetBranchPacks(ctx context.Context, branch string) (domain.Branch, error)
-	GetPacksByArchAndName(ctx context.Context, branch string, arch string, packName string) ([]domain.Binpack, bool, error)
+	PacksByArchAndNameExist(ctx context.Context, branch string, pkg domain.Binpack) ([]domain.Binpack, bool, error)
+	GetSource(ctx context.Context, branch string, pkg domain.Binpack) (bool, error)
+	SaveComparison(ctx context.Context, verResults *domain.CompareBranch) error
+	GetMethodComparison(ctx context.Context, branch, method string) ([]string, error)
 }
 
 // Repositories consolidated object for providing repositories for seriveces

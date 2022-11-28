@@ -16,6 +16,8 @@ type Analyzer interface {
 	GetUnique(ctx context.Context, branch1 string, branch2 string) (domain.Result, error)
 	GetHigher(ctx context.Context, branch1 string, branch2 string) (domain.Result, error)
 	StorePacks(ctx context.Context, branch string) error
+	GetVerificationInfo(ctx context.Context, branch1, branch2 string) error
+	VerifyByMethod(ctx context.Context, branch string, method string, myResult domain.Result) ([]string, error)
 }
 
 // Services consolidated object for hosting any current or future services

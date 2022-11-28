@@ -20,3 +20,29 @@ type RequestResult struct {
 type Result map[string]map[string]map[string][]Binpack
 type Method map[string]map[string][]Binpack
 type Branch map[string][]Binpack
+
+type PkgShort struct {
+	Name    string `json:"name"`
+	Version string `json:"version"`
+	Release string `json:"release"`
+}
+
+type VerificationInfo struct {
+	RequestArgs struct {
+		Pkgset1 string `json:"pkgset1"`
+		Pkgset2 string `json:"pkgset2"`
+	} `json:"request_args"`
+	Length   int `json:"length"`
+	Packages []struct {
+		Pkgset1  string   `json:"pkgset1"`
+		Pkgset2  string   `json:"pkgset2"`
+		Package1 PkgShort `json:"package1"`
+		Package2 PkgShort `json:"package2"`
+	} `json:"packages"`
+}
+type ComparePackage map[string]PkgShort
+type Compare map[string][]string
+type CompareBranch map[string]Compare
+type Sources map[string][]string
+type BranchSources map[string]Sources
+type MethodBranches map[string]BranchSources
