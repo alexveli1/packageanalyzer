@@ -42,6 +42,7 @@ func (u *Usecase) GetPackages(ctx context.Context, branch string) error {
 
 		return err
 	}
+
 	return nil
 }
 
@@ -61,6 +62,7 @@ func (u *Usecase) GetUniquePackages(ctx context.Context, branch1 string, branch2
 		return err
 	}
 	u.appendResult(packs)
+
 	return nil
 }
 
@@ -80,6 +82,46 @@ func (u *Usecase) GetHigherReleases(ctx context.Context, branch1 string, branch2
 		return err
 	}
 	u.appendResult(packs)
+
+	return nil
+}
+
+func (u *Usecase) GetVerificationData(ctx context.Context, branch1, branch2 string) error {
+	err := u.Services.Analyzer.GetVerificationInfo(ctx, branch1, branch2)
+	if err != nil {
+		mylog.SugarLogger.Warnf("cannot get verification info for branches %s, %s: %v", branch1, branch2, err)
+
+		return err
+	}
+	return nil
+}
+
+func (u *Usecase) VerifyResult(ctx context.Context, branch string) error {
+	failures, err := u.Services.Analyzer.VerifyByMethod(ctx, branch, domain.MethodUnique, u.result)
+	if err != nil {
+		mylog.SugarLogger.Warnf("cannot verify results for branch %s: %v", branch, err)
+
+		return err
+	}
+	if len(failures) > 0 {
+		mylog.SugarLogger.Warnf("Unique packages not in official data in branch %s:\n%v\n", branch, failures)
+
+		return nil
+	}
+	mylog.SugarLogger.Infof("Uniqueness verification successful for branch %s", branch)
+	failures, err = u.Services.Analyzer.VerifyByMethod(ctx, branch, domain.MethodHigher, u.result)
+	if err != nil {
+		mylog.SugarLogger.Warnf("cannot verify results for branch %s: %v", branch, err)
+
+		return err
+	}
+	if len(failures) > 0 {
+		mylog.SugarLogger.Warnf("Higher releases not in official data in branch  %s:\n%v\n", branch, failures)
+
+		return nil
+	}
+	mylog.SugarLogger.Infof("Release difference verification was successful for branch %s", branch)
+
 	return nil
 }
 
@@ -91,21 +133,8 @@ func (u *Usecase) PrintResult(ctx context.Context) {
 
 		return
 	}
-	for arch, v := range u.result {
-		mylog.SugarLogger.Infof("Stats for arch:%s", arch)
-		for method, v1 := range v {
-			for branch, v2 := range v1 {
-				mylog.SugarLogger.Infof("branch:%s has %d %s packages", branch, len(v2), method)
-			}
-		}
-		data, _ := json.Marshal(v)
-		err := os.WriteFile(arch+".json", data, 0666)
-		if err != nil {
-			mylog.SugarLogger.Warnf("cannot write json file: %v", err)
-
-			return
-		}
-	}
+	data, _ := json.Marshal(u.result)
+	_ = os.WriteFile("result.json", data, 0666)
 }
 
 // appendResult stores domain.Result of processing single branch with single method (unique or higher)

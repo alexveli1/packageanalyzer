@@ -210,13 +210,13 @@ func (s *ServiceTestSuite) TestAnalyzerService_GetHigher() {
 
 				return
 			}
-			err = as.repo.SavePacks(ctx, domain.Sisyphus, packSisyphus)
+			err = as.repo.SavePacks(ctx, domain.Sisyphus, packSisyphus, nil)
 			if err != nil {
 				s.NoErrorf(err, "cannot save pack sisyphus")
 
 				return
 			}
-			err = as.repo.SavePacks(ctx, domain.P10, packP10)
+			err = as.repo.SavePacks(ctx, domain.P10, packP10, nil)
 			if err != nil {
 				s.NoErrorf(err, "cannot save pack p10")
 
@@ -286,13 +286,13 @@ func (s *ServiceTestSuite) TestAnalyzerService_GetUnique() {
 
 				return
 			}
-			err = as.repo.SavePacks(ctx, domain.Sisyphus, packSisyphus)
+			err = as.repo.SavePacks(ctx, domain.Sisyphus, packSisyphus, nil)
 			if err != nil {
 				s.NoErrorf(err, "cannot save pack sisyphus")
 
 				return
 			}
-			err = as.repo.SavePacks(ctx, domain.P10, packP10)
+			err = as.repo.SavePacks(ctx, domain.P10, packP10, nil)
 			if err != nil {
 				s.NoErrorf(err, "cannot save pack p10")
 
